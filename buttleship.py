@@ -122,9 +122,6 @@ def check_alone(data, coordinate):
             listuk.append(coordinate)
 
             str_coordinate = "/ABCDEFGHIJ/"
-
-            count = 1
-
             regeest = str_coordinate.find(coordinate[0])
 
             num = 1
@@ -163,7 +160,7 @@ def check_alone(data, coordinate):
 
             listuk3 = listuk + listuk2
             listuk4 = []
-            new = ''
+
             for element in listuk3:
                 while noun != 3:
                     if str_coordinate[str_coordinate.find(element[0]) + counter] in "ABCDEFGHIJ":
@@ -173,16 +170,29 @@ def check_alone(data, coordinate):
                     else:
                         counter *= -1
                         noun += 1
+                noun -= 2
 
+            all_ = set(listuk3 + listuk4)
+            all_list = list(all_)
 
-            return listuk4
+            for el in listuk:
+                all_list.remove(el)
+
+            new_counter = 0
+            for element in all_list:
+                if has_ship(data, element) != True:
+                    new_counter += 1
+                else:
+                    return False
+            if new_counter == len(all_list):
+                return ship_size(data, coordinate)
+            else:
+                return False
 
         else:
             return None
     except Exception:
         return None
-
-print(check_alone(read_field('field.txt'), ('C', 1)))
 
 
 def is_valid(data):
@@ -191,8 +201,33 @@ def is_valid(data):
     :param data:
     :return:
     """
-    pass
+    _list = []
+    str_coordinate = "ABCDEFGHIJ"
+
+    for element in str_coordinate:
+        for num in range(1, 11):
+            _list.append((element, num))
+
+    list_size = []
+
+    for element in _list:
+        if check_alone(data, element) == False:
+            return False
+        elif check_alone(data, element) != None:
+            list_size.append(check_alone(data, element))
+
+    if sum(list_size) == 50:
+        return True
+    else:
+        return False
+
+
+
+
+
+print(is_valid(read_field('field.txt')))
 
 # print(read_field('field.txt'))
 # print(has_ship(read_field('field.txt'), ('A', 1)))
 # print(ship_size(read_field('field.txt'), ('A', 7)))
+print(check_alone(read_field('field.txt'), ('A', 3)))
