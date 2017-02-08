@@ -152,18 +152,37 @@ def check_alone(data, coordinate):
 
             for element in listuk:
                 while noun != 3:
-                    if (element[0], element[1] + counter)
+                    if 1 <= element[1] + counter <= 10:
                         listuk2.append((element[0], element[1] + counter))
                         counter *= -1
                         noun += 1
+                    elif element[1] + counter > 10 or element[1] + counter < 1:
+                        counter *= -1
+                        noun += 1
                 noun -= 2
-            return listuk2
+
+            listuk3 = listuk + listuk2
+            listuk4 = []
+            new = ''
+            for element in listuk3:
+                while noun != 3:
+                    if str_coordinate[str_coordinate.find(element[0]) + counter] in "ABCDEFGHIJ":
+                        listuk4.append((str_coordinate[str_coordinate.find(element[0]) + counter], element[1]))
+                        counter *= -1
+                        noun += 1
+                    else:
+                        counter *= -1
+                        noun += 1
+
+
+            return listuk4
+
         else:
             return None
     except Exception:
         return None
 
-print(check_alone(read_field('field.txt'), ('A', 3)))
+print(check_alone(read_field('field.txt'), ('C', 1)))
 
 
 def is_valid(data):
