@@ -110,10 +110,10 @@ def ship_size(data, coordinate):
 
 def check_alone(data, coordinate):
     """
-
-    :param data:
+    Check that the ship is situated correct
+    :param data: field
     :param coordinate:
-    :return:
+    :return: If ship alone return size of this ship oif not return False
     """
     listuk = []
     listuk2 = []
@@ -197,9 +197,10 @@ def check_alone(data, coordinate):
 
 def is_valid(data):
     """
-
-    :param data:
-    :return:
+    (data) -> bool
+    Check that the game field is correct
+    :param data: field
+    :return: True or False
     """
     _list = []
     str_coordinate = "ABCDEFGHIJ"
@@ -222,12 +223,90 @@ def is_valid(data):
         return False
 
 
+def field_to_str(data):
+    """
+    (data) -> str
+    Make and print field
+    :param data: field with ships
+    """
+    list_str = ["   |A|B|C|D|E|F|G|H|I|J|"]
+    for number in range(1, 11):
+        if number < 10:
+            string = str(number) + ' :|'
+        else:
+            string = str(number) + ":|"
+        for element in data[number]:
+            if element == "0":
+                string += " |"
+            elif element == "1":
+                string += "*|"
+            else:
+                string += "X|"
+        list_str.append(string)
+
+    for sweets in list_str:
+        print(sweets)
+
+
+def generate_field():
+    """
+    () -> (data)
+    genarate the correct game`s field with ships
+    :return: data
+    """
+
+    while 1:
+        field = {"A": [], "B": [], "C": [], "D": [], "E": [],
+                "F": [], "G": [], "H": [], "I": [], "J": []}
+
+        for number in range(1, 11):
+            field[number] = ['0'] * 10
+
+        ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
+        for ship in ships:
+            r_num1 = random.choice(range(1, 11))
+            r_num2 = random.choice(range(10))
+            r_num3 = random.choice([-1, 1])
+
+            if r_num3 == 1:
+                if r_num2 + (ship - 1) <= 9:
+                    for number in range(ship):
+                        field[r_num1][r_num2 + number] = "*"
+                else:
+                    pass
+            else:
+                if r_num1 - ship >= 0:
+                    for number in range(ship):
+                        field[r_num1 - number][r_num2] = "*"
+                else:
+                    pass
+
+        for num in range(1, 11):
+            field["A"].append(field[num][0])
+            field["B"].append(field[num][1])
+            field["C"].append(field[num][2])
+            field["D"].append(field[num][3])
+            field["E"].append(field[num][4])
+            field["F"].append(field[num][5])
+            field["G"].append(field[num][6])
+            field["H"].append(field[num][7])
+            field["I"].append(field[num][8])
+            field["J"].append(field[num][9])
+
+        if is_valid(field):
+            return field
+        else:
+            continue
+
+
+print(generate_field())
 
 
 
-print(is_valid(read_field('field.txt')))
 
+# print(field_to_str(read_field("field.txt")))
+# print(is_valid(read_field('field.txt')))
 # print(read_field('field.txt'))
 # print(has_ship(read_field('field.txt'), ('A', 1)))
 # print(ship_size(read_field('field.txt'), ('A', 7)))
-print(check_alone(read_field('field.txt'), ('A', 3)))
+# print(check_alone(read_field('field.txt'), ('A', 3)))
