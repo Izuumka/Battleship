@@ -257,7 +257,7 @@ def generate_field():
 
     while 1:
         field = {"A": [], "B": [], "C": [], "D": [], "E": [],
-                "F": [], "G": [], "H": [], "I": [], "J": []}
+                 "F": [], "G": [], "H": [], "I": [], "J": []}
 
         for number in range(1, 11):
             field[number] = ['0'] * 10
@@ -298,8 +298,7 @@ def generate_field():
         else:
             continue
 
-
-#print(generate_field())
+# print(generate_field())
 
 
 
